@@ -4,6 +4,11 @@ brew update || exit 1
 brew cask uninstall oclint
 brew install ffmpeg opencv curl expat libffi fftw glib zlib openexr librsvg
 
+export PATH="/usr/local/opt/curl/bin:/usr/local/opt/zlib/bin:$PATH"
+export PKG_CONFIG_PATH="/usr/local/opt/curl/lib/pkgconfig:/usr/local/opt/zlib/lib/pkgconfig:$PKG_CONFIG_PATH"
+export LD_LIBRARY_PATH="/usr/local/opt/curl/lib:/usr/local/opt/zlib/lib:$LD_LIBRARY_PATH"
+
+
 if [ ! -e gmic-qt ]; then
 	echo "Running git clone https://github.com/c-koi/gmic-qt.git"
 	git clone https://github.com/c-koi/gmic-qt.git || exit 1
