@@ -28,10 +28,10 @@ echo "Generating GMIC headers"
 make -C gmic-clone/src CImg.h gmic_stdlib.h || exit 1
 
 
-export CC=“gcc -mmacosx-version-min=10.8 -fno-stack-protector -march=nocona -mno-sse3 -mtune=generic”
-export CXX=“g++ -mmacosx-version-min=10.8 -fno-stack-protector -march=nocona -mno-sse3 -mtune=generic”
+export CC="gcc -mmacosx-version-min=10.8 -fno-stack-protector -march=nocona -mno-sse3 -mtune=generic"
+export CXX="g++ -mmacosx-version-min=10.8 -fno-stack-protector -march=nocona -mno-sse3 -mtune=generic"
 
-make -B cli “SUBLIBS=-lX11”
+make -B cli "SUBLIBS=-lX11"
 makedir /tmp/gmic-cli
 cp gmic /tmp/gmic-cli/
 
@@ -43,7 +43,7 @@ fi
 
 
 cd /tmp/gmic-cli
-"$TRAVIS_BUILD_DIR"/macdylibbundler/dylibbundler -b -od -x gmic -cd -p “@rpath” > /dev/null
-install_name_tool -add_rpath “@loader_path/libs” gmic
+"$TRAVIS_BUILD_DIR"/macdylibbundler/dylibbundler -b -od -x gmic -cd -p "@rpath" > /dev/null
+install_name_tool -add_rpath "@loader_path/libs" gmic
 cd …
-tar czf gmic-cli.tgz gmic-cli
+tar czf "$TRAVIS_BUILD_DIR"/gmic-cli.tgz gmic-cli
