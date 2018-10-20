@@ -35,5 +35,5 @@ fi
 cd /tmp/gmic-cli || exit 1
 "$TRAVIS_BUILD_DIR"/macdylibbundler/dylibbundler -b -od -x gmic -cd -p "@rpath" > /dev/null
 install_name_tool -add_rpath "@loader_path/libs" gmic
-cd …
+cd ..
 tar czf "$TRAVIS_BUILD_DIR"/gmic-cli.tgz gmic-cli
