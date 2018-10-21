@@ -21,7 +21,11 @@ cd gmic/src || exit 1
 export CC="gcc -mmacosx-version-min=10.8 -fno-stack-protector -march=nocona -mno-sse3 -mtune=generic"
 export CXX="g++ -mmacosx-version-min=10.8 -fno-stack-protector -march=nocona -mno-sse3 -mtune=generic"
 
-make -B cli "SUBLIBS=-lX11" || exit 1
+mkdir build || exit 1
+cd build || exit 1
+cmake -DBUILD_CLI=ON .. || exit 1
+make -j 3 || exit 1
+#make -B cli "SUBLIBS=-lX11" || exit 1
 mkdir /tmp/gmic-cli || exit 1
 cp -a gmic /tmp/gmic-cli/ || exit 1
 
