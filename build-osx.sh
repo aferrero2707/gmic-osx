@@ -34,9 +34,10 @@ fi
 
 cd /tmp/gmic-cli || exit 1
 "$TRAVIS_BUILD_DIR"/macdylibbundler/dylibbundler -b -od -x gmic -cd -p "@rpath" > /dev/null
+cp -a /usr/local/lib/libopencv_*.dylib libs
 echo "install_name_tool -add_rpath \"@loader_path/libs\" gmic"
 install_name_tool -add_rpath "@loader_path/libs" gmic
-for F in lib/*.dylib; do
+for F in libs/*.dylib; do
 	echo "install_name_tool -add_rpath \"@loader_path\" \"$F\""
 	install_name_tool -add_rpath "@loader_path" "$F"
 done
