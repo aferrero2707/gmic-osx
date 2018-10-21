@@ -61,7 +61,7 @@ fix_lib()
 		# at runtime the libraries will be searched through the @rpath list
 		DYLIBNAME=$(basename "$DYLIB")
 		echo "install_name_tool -change \"$DYLIB\" \"@loader_path/$DYLIBNAME\" \"${_LIB}\""
-		install_name_tool -change "$DYLIB" "@loaderpath/$DYLIBNAME" "${_LIB}"
+		install_name_tool -change "$DYLIB" "@loader_path/$DYLIBNAME" "${_LIB}"
 		I=$((I+1))
 	done
 otool -L "${_LIB}"
