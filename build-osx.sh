@@ -44,7 +44,11 @@ fix_lib()
 	while [ $I -le $NDY ]; do
 		LINE=$(echo "$DYLIST" | sed -n ${I}p)
 		DYLIB=$(echo $LINE | sed -e 's/^[ \t]*//' | tr -s ' ' | tr ' ' '\n' | head -n 1)
-	
+		PREFIX=$(basename "$DYLIB" | cut -d'.' -f 1)
+		echo "PREFIX: $PREFIX"
+		DYLIB2=$(find "." -name "$PREFIX"*)
+		echo "DYLIB2: $DYLIB2"
+
 		#check if this is a system library, using an ad-hoc euristic
 		TEST=$(echo "$DYLIB" | grep '\.framework')
 		if [ -n "$TEST" ]; then
@@ -59,7 +63,11 @@ fix_lib()
 	
 		# replace absolute paths for non-system libraries and frameworks
 		# at runtime the libraries will be searched through the @rpath list
-		DYLIBNAME=$(basename "$DYLIB")
+		if [ -n "$DYLIB2" ]; then
+			DYLIBNAME=$(basename "$DYLIB2")
+		else
+			DYLIBNAME=$(basename "$DYLIB")
+		fi
 		echo "install_name_tool -change \"$DYLIB\" \"@loader_path/$DYLIBNAME\" \"${_LIB}\""
 		install_name_tool -change "$DYLIB" "@loader_path/$DYLIBNAME" "${_LIB}"
 		I=$((I+1))
