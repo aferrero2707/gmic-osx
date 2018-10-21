@@ -32,14 +32,51 @@ if [ ! -e macdylibbundler ]; then
 fi
 
 
+fix_lib()
+{
+	_LIB="$1"
+	DYLIST=$(otool -L "${_LIB}")
+	NDY=$(echo "$DYLIST" | wc -l)
+	echo "NDY: $NDY"
+	
+	# patch absolute paths
+	I=2
+	while [ $I -le $NDY ]; do
+		LINE=$(echo "$DYLIST" | sed -n ${I}p)
+		DYLIB=$(echo $LINE | sed -e 's/^[ \t]*//' | tr -s ' ' | tr ' ' '\n' | head -n 1)
+	
+		#check if this is a system library, using an ad-hoc euristic
+		TEST=$(echo "$DYLIB" | grep '\.framework')
+		if [ -n "$TEST" ]; then
+			# this looks like a framework, no ned to patch the absolute path
+			I=$((I+1)); continue;
+		fi
+		TEST=$(echo "$DYLIB" | grep '/usr/lib/')
+		if [ -n "$TEST" ]; then
+			# this looks like a system library, no ned to patch the absolute path
+			I=$((I+1)); continue;
+		fi
+	
+		# replace absolute paths for non-system libraries and frameworks
+		# at runtime the libraries will be searched through the @rpath list
+		DYLIBNAME=$(basename "$DYLIB")
+		echo "install_name_tool -change \"$DYLIB\" \"@loader_path/$DYLIBNAME\" \"${_LIB}\""
+		install_name_tool -change "$DYLIB" "@loaderpath/$DYLIBNAME" "${_LIB}"
+		I=$((I+1))
+	done
+otool -L "${_LIB}"
+}
+
+
 cd /tmp/gmic-cli || exit 1
 "$TRAVIS_BUILD_DIR"/macdylibbundler/dylibbundler -b -od -x gmic -cd -p "@rpath" > /dev/null
 cp -a /usr/local/Cellar/opencv/3.4.3/lib/libopencv_*.dylib libs
 echo "install_name_tool -add_rpath \"@loader_path/libs\" gmic"
 install_name_tool -add_rpath "@loader_path/libs" gmic
 for F in libs/*.dylib; do
-	echo "install_name_tool -add_rpath \"@loader_path\" \"$F\""
-	install_name_tool -add_rpath "@loader_path" "$F"
+	fix_lib "$F"
+	#echo "install_name_tool -add_rpath \"@loader_path\" \"$F\""
+	#install_name_tool -add_rpath "@loader_path" "$F"
 done
 cd ..
 tar czvf "$TRAVIS_BUILD_DIR"/gmic-cli.tgz gmic-cli
