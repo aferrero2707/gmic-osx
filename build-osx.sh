@@ -68,8 +68,8 @@ fix_lib()
 		else
 			DYLIBNAME=$(basename "$DYLIB")
 		fi
-		echo "install_name_tool -change \"$DYLIB\" \"@loader_path/$DYLIBNAME\" \"${_LIB}\""
-		install_name_tool -change "$DYLIB" "@loader_path/$DYLIBNAME" "${_LIB}"
+		echo "install_name_tool -change \"$DYLIB\" \"@rpath/$DYLIBNAME\" \"${_LIB}\""
+		install_name_tool -change "$DYLIB" "@rpath/$DYLIBNAME" "${_LIB}"
 		I=$((I+1))
 	done
 otool -L "${_LIB}"
