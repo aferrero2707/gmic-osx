@@ -3,7 +3,8 @@
 brew update || exit 1
 brew cask uninstall oclint
 #brew install ffmpeg curl expat libffi fftw glib zlib openexr cmake #opencv@2 
-brew install curl expat fftw glib openexr cmake #opencv@2 
+brew install curl expat fftw glib openexr || exit 1 
+brew upgrade cmake || exit 1
 
 export PATH="/usr/local/opt/opencv@2/bin:/usr/local/opt/curl/bin:/usr/local/opt/zlib/bin:$PATH"
 export PKG_CONFIG_PATH="/usr/local/opt/opencv@2/lib/pkgconfig:/usr/local/opt/curl/lib/pkgconfig:/usr/local/opt/zlib/lib/pkgconfig:$PKG_CONFIG_PATH"
