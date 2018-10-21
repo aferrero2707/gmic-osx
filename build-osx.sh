@@ -2,7 +2,7 @@
 
 brew update || exit 1
 brew cask uninstall oclint
-brew install ffmpeg opencv@2 curl expat libffi fftw glib zlib openexr librsvg
+brew install ffmpeg curl expat libffi fftw glib zlib openexr librsvg #opencv@2 
 
 export PATH="/usr/local/opt/opencv@2/bin:/usr/local/opt/curl/bin:/usr/local/opt/zlib/bin:$PATH"
 export PKG_CONFIG_PATH="/usr/local/opt/opencv@2/lib/pkgconfig:/usr/local/opt/curl/lib/pkgconfig:/usr/local/opt/zlib/lib/pkgconfig:$PKG_CONFIG_PATH"
@@ -68,8 +68,8 @@ fix_lib()
 		else
 			DYLIBNAME=$(basename "$DYLIB")
 		fi
-		echo "install_name_tool -change \"$DYLIB\" \"@rpath/$DYLIBNAME\" \"${_LIB}\""
-		install_name_tool -change "$DYLIB" "@rpath/$DYLIBNAME" "${_LIB}"
+		echo "install_name_tool -change \"$DYLIB\" \"@loader_path/$DYLIBNAME\" \"${_LIB}\""
+		install_name_tool -change "$DYLIB" "@loader_path/$DYLIBNAME" "${_LIB}"
 		I=$((I+1))
 	done
 otool -L "${_LIB}"
