@@ -9,6 +9,11 @@ bash homebrew-bottles/install-bottles.sh || exit 1
 brew install curl expat glib || exit 1 
 brew upgrade cmake || exit 1
 
+otool -l /usr/local/lib/libfftw3_threads.3.dylib
+exit
+
+
+
 export PATH="/usr/local/opt/opencv@2/bin:/usr/local/opt/curl/bin:/usr/local/opt/zlib/bin:$PATH"
 export PKG_CONFIG_PATH="/usr/local/opt/opencv@2/lib/pkgconfig:/usr/local/opt/curl/lib/pkgconfig:/usr/local/opt/zlib/lib/pkgconfig:$PKG_CONFIG_PATH"
 export LD_LIBRARY_PATH="/usr/local/opt/opencv@2/lib:/usr/local/opt/curl/lib:/usr/local/opt/zlib/lib:$LD_LIBRARY_PATH"
@@ -83,7 +88,6 @@ fix_lib()
 	done
 otool -L "${_LIB}"
 }
-
 
 cd /tmp/gmic-cli || exit 1
 "$TRAVIS_BUILD_DIR"/macdylibbundler/dylibbundler -b -od -x gmic -cd -p "@rpath" > /dev/null
