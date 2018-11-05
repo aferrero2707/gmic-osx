@@ -5,7 +5,7 @@ brew cask uninstall oclint
 #brew install ffmpeg curl expat libffi fftw glib zlib openexr cmake #opencv@2 
 git clone https://github.com/aferrero2707/homebrew-bottles.git || exit 1
 bash homebrew-bottles/install-bottles.sh || exit 1
-exit
+#exit
 brew install curl expat glib || exit 1 
 brew upgrade cmake || exit 1
 
