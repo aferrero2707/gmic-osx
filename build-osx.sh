@@ -3,7 +3,9 @@
 brew update || exit 1
 brew cask uninstall oclint
 #brew install ffmpeg curl expat libffi fftw glib zlib openexr cmake #opencv@2 
-brew install curl expat fftw glib openexr || exit 1 
+git clone https://github.com/aferrero2707/homebrew-bottles.git || exit 1
+bash homebrew-bottles/install-bottles.sh || exit 1
+brew install curl expat glib || exit 1 
 brew upgrade cmake || exit 1
 
 export PATH="/usr/local/opt/opencv@2/bin:/usr/local/opt/curl/bin:/usr/local/opt/zlib/bin:$PATH"
