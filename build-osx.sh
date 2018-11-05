@@ -9,9 +9,6 @@ bash homebrew-bottles/install-bottles.sh || exit 1
 brew install curl expat glib || exit 1 
 brew upgrade cmake || exit 1
 
-otool -l /usr/local/lib/libfftw3_threads.3.dylib
-exit
-
 
 
 export PATH="/usr/local/opt/opencv@2/bin:/usr/local/opt/curl/bin:/usr/local/opt/zlib/bin:$PATH"
@@ -60,7 +57,7 @@ fix_lib()
 		DYLIB=$(echo $LINE | sed -e 's/^[ \t]*//' | tr -s ' ' | tr ' ' '\n' | head -n 1)
 		PREFIX=$(basename "$DYLIB" | cut -d'.' -f 1)
 		echo "PREFIX: $PREFIX"
-		DYLIB2=$(find "." -name "$PREFIX"*)
+		DYLIB2=$(find "." -name "${PREFIX}".* | head -n 1)
 		echo "DYLIB2: $DYLIB2"
 
 		#check if this is a system library, using an ad-hoc euristic
