@@ -31,7 +31,7 @@ export CXX="g++ -mmacosx-version-min=10.8 -fno-stack-protector -march=nocona -mn
 mkdir build || exit 1
 cd build || exit 1
 cmake -DBUILD_CLI=ON .. || exit 1
-travis_wait 120 make VERBOSE=1 -j 3 || exit 1
+make VERBOSE=1 -j 3 || exit 1
 #make -B cli "SUBLIBS=-lX11" || exit 1
 mkdir /tmp/gmic-cli || exit 1
 cp -a gmic /tmp/gmic-cli/ || exit 1
