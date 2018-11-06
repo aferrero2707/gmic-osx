@@ -94,8 +94,8 @@ clear_rpaths()
 {
 	FILE="$1"
 	RPATHS=$(otool -l "$FILE" | grep '         path ')
-	NRPATH=$(echo "$RPATHS" | wc -l)
-	for I in $(seq 1 $NRPATHS; do
+	NRPATHS=$(echo "$RPATHS" | wc -l)
+	for I in $(seq 1 $NRPATHS); do
 		RPATH=$(echo "$RPATHS" | sed -n ${I}p | sed -e 's|         path ||g' | sed -e 's| (offset .*)||g')
 		echo "Removing RPATH \"$RPATH\" from \"$FILE\""
 		install_name_tool -delete_rpath "$RPATH" "$FILE"
