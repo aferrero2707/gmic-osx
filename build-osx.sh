@@ -86,9 +86,23 @@ fix_lib()
 otool -L "${_LIB}"
 }
 
+
+clear_rpaths()
+{
+	FILE="$1"
+	RPATHS=$(otool -l "$FILE" | grep '         path ')
+	NRPATH=$(echo "$RPATHS" | wc -l)
+	for I in $(seq 1 $NRPATHS; do
+		RPATH=$(echo "$RPATHS" | sed -n ${I}p | sed -e 's|         path ||g' | sed -e 's| (offset .*)||g')
+		echo "Removing RPATH \"$RPATH\" from \"$FILE\""
+		install_name_tool -delete_rpath "$RPATH" "$FILE"
+	done
+}
+
 cd /tmp/gmic-cli || exit 1
 "$TRAVIS_BUILD_DIR"/macdylibbundler/dylibbundler -b -od -x gmic -cd -p "@rpath" > /dev/null
 cp -a /usr/local/Cellar/opencv/3.4.3/lib/libopencv_*.dylib libs
+clear_rpaths ./gmic
 echo "install_name_tool -add_rpath \"@loader_path/libs\" gmic"
 install_name_tool -add_rpath "@loader_path/libs" gmic
 for F in libs/*.dylib; do
