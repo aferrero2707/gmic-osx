@@ -4,10 +4,17 @@ os: osx
 osx_image: xcode9.4
 
 before_install:
-  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew update && brew install ccache; fi
-  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then export PATH="/usr/local/opt/ccache/libexec:$PATH"; fi
-  #- if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then travis_wait 120 bash ./build-osx.sh; fi
-  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then bash ./build-osx.sh; fi
+  #- brew update && brew install ccache
+  #- export PATH="/usr/local/opt/ccache/libexec:$PATH"
+  - brew update
+  - brew cask uninstall oclint
+  #- brew install ffmpeg curl expat libffi fftw glib zlib openexr cmake #opencv@2 
+  - git clone https://github.com/aferrero2707/homebrew-bottles.git
+  - bash homebrew-bottles/install-bottles.sh
+  - brew install curl expat glib
+  - brew upgrade cmake
+  - travis_wait 120 bash ./build-osx.sh
+  #- if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then bash ./build-osx.sh; fi
   - ls
   - wget -c https://github.com/aferrero2707/uploadtool/raw/master/upload_rotate.sh
   - bash  ./upload_rotate.sh "continuous" *.tgz >& /dev/null
