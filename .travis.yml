@@ -7,7 +7,7 @@ before_install:
   #- brew update && brew install ccache
   #- export PATH="/usr/local/opt/ccache/libexec:$PATH"
   - brew update
-  - brew cask uninstall oclint
+  - brew cask uninstall oclint || true
   #- brew install ffmpeg curl expat libffi fftw glib zlib openexr cmake #opencv@2 
   - git clone https://github.com/aferrero2707/homebrew-bottles.git
   - bash homebrew-bottles/install-bottles.sh
