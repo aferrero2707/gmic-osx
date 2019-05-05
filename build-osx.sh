@@ -35,7 +35,7 @@ export CXX="g++ -mmacosx-version-min=10.8 -fno-stack-protector -march=nocona -mn
 
 mkdir -p build || exit 1
 cd build || exit 1
-cmake -DBUILD_CLI=ON .. || exit 1
+cmake -DBUILD_CLI=ON -DBUILD_BASH_COMPLETION=OFF .. || exit 1
 bash "$TRAVIS_BUILD_DIR"/watch.sh 'echo Waiting' 10 &
 WATCH_PID=$!
 make VERBOSE=1 -j 3 || exit 1
