@@ -11,9 +11,14 @@
 
 
 
-export PATH="/usr/local/opt/opencv@2/bin:/usr/local/opt/curl/bin:/usr/local/opt/zlib/bin:$PATH"
-export PKG_CONFIG_PATH="/usr/local/opt/opencv@2/lib/pkgconfig:/usr/local/opt/curl/lib/pkgconfig:/usr/local/opt/zlib/lib/pkgconfig:$PKG_CONFIG_PATH"
-export LD_LIBRARY_PATH="/usr/local/opt/opencv@2/lib:/usr/local/opt/curl/lib:/usr/local/opt/zlib/lib:$LD_LIBRARY_PATH"
+#export PATH="/usr/local/opt/opencv@2/bin:/usr/local/opt/curl/bin:/usr/local/opt/zlib/bin:$PATH"
+#export PKG_CONFIG_PATH="/usr/local/opt/opencv@2/lib/pkgconfig:/usr/local/opt/curl/lib/pkgconfig:/usr/local/opt/zlib/lib/pkgconfig:$PKG_CONFIG_PATH"
+#export LD_LIBRARY_PATH="/usr/local/opt/opencv@2/lib:/usr/local/opt/curl/lib:/usr/local/opt/zlib/lib:$LD_LIBRARY_PATH"
+
+export PATH="/opt/local/bin:$PATH"
+export PKG_CONFIG_PATH="/opt/local/lib/pkgconfig:$PKG_CONFIG_PATH"
+export LD_LIBRARY_PATH="/opt/local/lib:$LD_LIBRARY_PATH"
+
 
 
 if [ ! -e gmic ]; then
@@ -28,10 +33,10 @@ cd gmic || exit 1
 export CC="gcc -mmacosx-version-min=10.8 -fno-stack-protector -march=nocona -mno-sse3 -mtune=generic"
 export CXX="g++ -mmacosx-version-min=10.8 -fno-stack-protector -march=nocona -mno-sse3 -mtune=generic"
 
-mkdir build || exit 1
+mkdir -p build || exit 1
 cd build || exit 1
 cmake -DBUILD_CLI=ON .. || exit 1
-bash "$TRAVIS_BUILD_DIR"/watch.sh 'echo Waiting' 10 &
+#bash "$TRAVIS_BUILD_DIR"/watch.sh 'echo Waiting' 10 &
 WATCH_PID=$!
 make VERBOSE=1 -j 3 || exit 1
 kill -9 ${WATCH_PID}
@@ -104,7 +109,7 @@ clear_rpaths()
 
 cd /tmp/gmic-cli || exit 1
 "$TRAVIS_BUILD_DIR"/macdylibbundler/dylibbundler -b -od -x gmic -cd -p "@rpath" > /dev/null
-cp -a /usr/local/Cellar/opencv/3.4.3/lib/libopencv_*.dylib libs
+#cp -a /usr/local/Cellar/opencv/3.4.3/lib/libopencv_*.dylib libs
 clear_rpaths ./gmic
 echo "install_name_tool -add_rpath \"@loader_path/libs\" gmic"
 install_name_tool -add_rpath "@loader_path/libs" gmic
@@ -114,4 +119,4 @@ for F in libs/*.dylib; do
 	#install_name_tool -add_rpath "@loader_path" "$F"
 done
 cd ..
-tar czvf "$TRAVIS_BUILD_DIR"/gmic-cli.tgz gmic-cli
+tar czvf "$TRAVIS_BUILD_DIR"/gmic-cli-$(date +%Y%m%d).tgz gmic-cli

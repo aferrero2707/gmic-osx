@@ -4,15 +4,18 @@ os: osx
 osx_image: xcode9.4
 
 before_install:
+  - curl -LO https://raw.githubusercontent.com/aferrero2707/macports-ci/master/macports-ci
+  - source ./macports-ci --keep-brew install
   #- brew update && brew install ccache
   #- export PATH="/usr/local/opt/ccache/libexec:$PATH"
-  - brew update
-  - brew cask uninstall oclint || true
+  #- brew update
+  #- brew cask uninstall oclint || true
   #- brew install ffmpeg curl expat libffi fftw glib zlib openexr cmake #opencv@2 
-  - git clone https://github.com/aferrero2707/homebrew-bottles.git
-  - bash homebrew-bottles/install-bottles.sh
-  - brew install curl expat glib
-  - brew upgrade cmake
+  #- git clone https://github.com/aferrero2707/homebrew-bottles.git
+  #- bash homebrew-bottles/install-bottles.sh
+  #- brew install curl expat glib
+  #- brew upgrade cmake
+  - /opt/local/bin/port install cmake openexr opencv tiff openjpeg libpng
   - bash ./build-osx.sh
   #- if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then bash ./build-osx.sh; fi
   - ls
