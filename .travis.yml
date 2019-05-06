@@ -6,7 +6,8 @@ osx_image: xcode9.4
 before_install:
   - curl -LO https://raw.githubusercontent.com/aferrero2707/macports-ci/master/macports-ci
   - source ./macports-ci install
-  - sudo mv /usr/local /usr/_local
+  #- sudo mv /usr/local /usr/_local
+  - brew remove --force libtiff libpng jpeg openjpeg
   #- brew update && brew install ccache
   #- export PATH="/usr/local/opt/ccache/libexec:$PATH"
   #- brew update
@@ -16,7 +17,7 @@ before_install:
   #- bash homebrew-bottles/install-bottles.sh
   #- brew install curl expat glib
   #- brew upgrade cmake
-  - sudo /opt/local/bin/port install cmake openexr opencv tiff openjpeg libpng
+  - sudo /opt/local/bin/port install cmake openexr opencv tiff openjpeg libpng libjpeg
   - bash ./build-osx.sh
   #- if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then bash ./build-osx.sh; fi
   - ls
