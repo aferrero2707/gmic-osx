@@ -29,6 +29,7 @@ if [ ! -e gmic ]; then
 	echo "... finished"
 fi
 cd gmic || exit 1
+sed -i 's|-Ofast|-O3|g' CMakeLists.txt
 
 export CC="gcc -mmacosx-version-min=10.8 -fno-stack-protector -march=nocona -mno-sse3 -mtune=generic"
 export CXX="g++ -mmacosx-version-min=10.8 -fno-stack-protector -march=nocona -mno-sse3 -mtune=generic"
