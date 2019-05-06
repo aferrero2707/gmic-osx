@@ -1,7 +1,7 @@
 language: generic
 
 os: osx
-osx_image: xcode9.4
+osx_image: xcode7.3
 
 before_install:
   - curl -LO https://raw.githubusercontent.com/aferrero2707/macports-ci/master/macports-ci
@@ -17,7 +17,7 @@ before_install:
   #- bash homebrew-bottles/install-bottles.sh
   #- brew install curl expat glib
   #- brew upgrade cmake
-  - sudo /opt/local/bin/port install cmake openexr opencv tiff openjpeg libpng fftw-3 GraphicsMagick
+  - sudo /opt/local/bin/port install cmake openexr tiff openjpeg libpng fftw-3 #GraphicsMagick opencv
   - bash ./build-osx.sh
   #- if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then bash ./build-osx.sh; fi
   - ls
