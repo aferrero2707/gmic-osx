@@ -17,7 +17,7 @@ before_install:
   #- bash homebrew-bottles/install-bottles.sh
   #- brew install curl expat glib
   #- brew upgrade cmake
-  - sudo /opt/local/bin/port install cmake openexr opencv tiff openjpeg libpng
+  - sudo /opt/local/bin/port install cmake openexr opencv tiff openjpeg libpng fftw-3 GraphicsMagick
   - bash ./build-osx.sh
   #- if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then bash ./build-osx.sh; fi
   - ls
