@@ -21,6 +21,8 @@ before_install:
   - bash ./build-osx.sh
   #- if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then bash ./build-osx.sh; fi
   - ls
+  - wget -c https://github.com/aferrero2707/uploadtool/raw/master/remove.sh
+  - bash ./remove.sh "continuous" "gmic-cli-" ".tgz" > /dev/null
   - wget -c https://github.com/aferrero2707/uploadtool/raw/master/upload_rotate.sh
   - bash  ./upload_rotate.sh "continuous" *.tgz >& /dev/null
 
